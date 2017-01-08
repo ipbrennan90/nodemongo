@@ -1,0 +1,11 @@
+{
+  "name": "nodemongo",
+  "version": "1.0.0",
+  "description": "node and mongo tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ian Brennan <ian@barbershop.io> (http://barbershop.io)",
+  "license": "ISC"
+}
