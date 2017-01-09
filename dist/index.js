@@ -23,9 +23,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 //Express Server
 
-var mongoAddress = 'mongodb://' + _config.config.mongoUser + ':' + _config.config.mongoPass + '@ds159208.mlab.com:59208/temps-and-weights';
-// mongodb init
+
+var getMongoAddress = function getMongoAddress() {
+	if (process.env.NODE_ENV === 'development') return 'mongodb://localhost/temps-and-weights';
+	if (process.env.NODE_ENV === 'production') return 'mongodb://' + (process.env.MONGO_USER || _config.config.mongoUser) + ':' + (process.env.MONGO_PASS || _config.config.mongoPass) + '@ds159208.mlab.com:59208/temps-and-weights';
+};
+
+var mongoAddress = getMongoAddress();
+
 _mongodb.MongoClient.connect(mongoAddress, function (err, database) {
+	console.log(mongoAddress);
 	if (err) return console.log(err);
 	var db = database;
 	app.listen(3000, function () {
