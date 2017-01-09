@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "start": "NODE_ENV=development nodemon lib/index.js --exec babel-node",
+    "start": "npm run build && node dist/index.js",
     "clean": "rm -rf dist && mkdir dist",
     "build-server": "babel lib -d dist",
     "build": "npm run clean && npm run build-server",
-    "serve": "npm run build && node dist/index.js"
+    "dev": "NODE_ENV=development nodemon lib/index.js --exec babel-node"
   },
   "author": "Ian Brennan <ian@barbershop.io> (http://barbershop.io)",
   "license": "ISC",
