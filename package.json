@@ -8,12 +8,13 @@
     "start": "npm run build && node dist/index.js",
     "clean": "rm -rf dist && mkdir dist",
     "build-server": "babel lib -d dist",
-    "build": "npm install && npm run clean && npm run build-server",
+    "build": "npm run clean && npm run build-server",
     "dev": "NODE_ENV=development nodemon lib/index.js --exec babel-node"
   },
   "author": "Ian Brennan <ian@barbershop.io> (http://barbershop.io)",
   "license": "ISC",
   "dependencies": {
+    "babel": "6.5.2",
     "body-parser": "1.15.2",
     "express": "4.14.0",
     "mongodb": "2.2.19",
