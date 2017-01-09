@@ -10,11 +10,13 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
 var _mongodb = require('mongodb');
 
+var _dotenv = require('dotenv');
+
+var _dotenv2 = _interopRequireDefault(_dotenv);
+
 var _index = require('./models/index');
 
 var Models = _interopRequireWildcard(_index);
-
-var _config = require('./config');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -26,7 +28,9 @@ var app = (0, _express2.default)();
 
 var getMongoAddress = function getMongoAddress() {
 	if (process.env.NODE_ENV === 'development') return 'mongodb://localhost/temps-and-weights';
-	if (process.env.NODE_ENV === 'production') return 'mongodb://' + (process.env.MONGO_USER || _config.config.mongoUser) + ':' + (process.env.MONGO_PASS || _config.config.mongoPass) + '@ds159208.mlab.com:59208/temps-and-weights';
+	if (process.env.NODE_ENV === 'production') return 'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASS + '@ds159208.mlab.com:59208/temps-and-weights';
+	_dotenv2.default.load();
+	return 'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASS + '@ds159208.mlab.com:59208/temps-and-weights';
 };
 
 var mongoAddress = getMongoAddress();
