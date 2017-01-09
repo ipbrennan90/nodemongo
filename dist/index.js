@@ -1,16 +1,44 @@
 'use strict';
 
+var _express = require('express');
+
+var _express2 = _interopRequireDefault(_express);
+
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
+var _mongodb = require('mongodb');
+
+var _config = require('../config');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 //Express Server
-var express = require('express');
-var app = express();
+var app = (0, _express2.default)();
+var mongoAddress = 'mongodb://' + _config.config.mongoUser + ':' + _config.config.mongoPass + '@ds159208.mlab.com:59208/temps-and-weights';
+// mongodb init
+_mongodb.MongoClient.connect(mongoAddress, function (err, database) {
+	if (err) return console.log(err);
+	var db = database;
+	app.listen(3000, function () {
+		console.log('listening on 3000');
+	});
 
-// getting server to listen for connections
-app.listen(3000, function () {
-	console.log('listening on 3000');
-});
+	// body-parser init
+	app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
-// handling a get a request (a READ request to our server)
-app.get('/', function (req, res) {
-	//__dirname is directory that contains JS source code.
-	res.sendFile(__dirname + '/index.html');
+	// handling a get a request (a READ request to our server)
+	app.get('/', function (req, res) {
+		//__dirname is directory that contains JS source code.
+		res.send('welcome to my app!');
+	});
+
+	app.post('/temps', function (req, res) {
+		db.collection('temps').save(req.body, function (err, result) {
+			if (err) return console.log(err);
+			console.log('saved to database');
+			res.send('success');
+		});
+	});
 });

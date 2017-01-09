@@ -13,3 +13,20 @@ describe('Exampe Node Server', () => {
 		});
 	});
 });
+
+describe('Post request', () => {
+
+	it('should return 200', done => {
+		const post_options = {
+			host: serverIP,
+			port: serverPort,
+			path: '/temps',
+			method: 'POST',
+			data: {}
+		};
+		http.request(post_options, res => {
+			assert.equal(200, res.statusCode);
+			done();
+		});
+	});
+});
