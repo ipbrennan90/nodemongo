@@ -10,12 +10,19 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
 var _mongodb = require('mongodb');
 
+var _index = require('./models/index');
+
+var Models = _interopRequireWildcard(_index);
+
 var _config = require('./config');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Express Server
 var app = (0, _express2.default)();
+//Express Server
+
 var mongoAddress = 'mongodb://' + _config.config.mongoUser + ':' + _config.config.mongoPass + '@ds159208.mlab.com:59208/temps-and-weights';
 // mongodb init
 _mongodb.MongoClient.connect(mongoAddress, function (err, database) {
@@ -37,10 +44,12 @@ _mongodb.MongoClient.connect(mongoAddress, function (err, database) {
 	});
 
 	app.post('/temps', function (req, res) {
-		db.collection('temps').save(req.body, function (err, result) {
-			if (err) return console.log(err);
-			console.log('saved to database');
-			res.send('success');
+		console.log('in temps');
+		var instance = new Models.Temp();
+		instance.temp = req.body.temp;
+		instance.save(function (err) {
+			if (err) res.send(err);
+			res.send('new temp added!');
 		});
 	});
 });
