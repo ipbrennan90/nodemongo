@@ -10,7 +10,7 @@ var _bodyParser2 = _interopRequireDefault(_bodyParser);
 
 var _mongodb = require('mongodb');
 
-var _config = require('../config');
+var _config = require('./config');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29,9 +29,11 @@ _mongodb.MongoClient.connect(mongoAddress, function (err, database) {
 	app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
 	// handling a get a request (a READ request to our server)
-	app.get('/', function (req, res) {
-		//__dirname is directory that contains JS source code.
-		res.send('welcome to my app!');
+	app.get('/temps', function (req, res) {
+		db.collection('temps').find().toArray(function (err, results) {
+			if (err) return console.log(err);
+			res.send({ temps: results });
+		});
 	});
 
 	app.post('/temps', function (req, res) {
