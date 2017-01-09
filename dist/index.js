@@ -14,32 +14,24 @@ var _index = require('./models/index');
 
 var Models = _interopRequireWildcard(_index);
 
+var _config = require('./config');
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//Express Server
 var app = (0, _express2.default)();
+//Express Server
 
-var getMongoAddress = function getMongoAddress() {
-	console.log(process.env.NODE_ENV);
-	if (process.env.NODE_ENV === 'development') return 'mongodb://localhost/temps-and-weights';
-	if (process.env.NODE_ENV === 'production') return 'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASS + '@ds159208.mlab.com:59208/temps-and-weights';
-	if (process.env.NODE_ENV === 'stage') {
-		var dotenv = require('dotenv');
-		dotenv.load();
-		return 'mongodb://' + process.env.MONGO_USER + ':' + process.env.MONGO_PASS + '@ds159208.mlab.com:59208/temps-and-weights';
-	}
-};
 
-var mongoAddress = getMongoAddress();
+var mongoAddress = _config.config.getMongoAddress();
 
 _mongodb.MongoClient.connect(mongoAddress, function (err, database) {
 	console.log(mongoAddress);
 	if (err) return console.log(err);
 	var db = database;
-	app.listen(3000, function () {
-		console.log('listening on 3000');
+	app.listen(process.env.PORT || 3000, function () {
+		console.log('server running');
 	});
 
 	// body-parser init
